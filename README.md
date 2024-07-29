@@ -2,6 +2,7 @@
 
 Our AppScript code is dependant on our Google Sheet File, if the AppScript file can't run alone you can open our Google Sheet Link and click on the extension at the taskbar and click AppScript
 
+For the ppt generaotr in python file, to run the html page type streamlit run ppt_generatr.py at the terminal
 
 Google Sheet Link
 https://docs.google.com/spreadsheets/d/1RODkzgSVCs4KkTENnmw5FzHxOgaWXk0UhWEJlCskqZM/edit?pli=1&gid=181777901#gid=181777901
