@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      function draftEmail() {
+        const username = document.getElementById('username').value;
+        document.getElementById('loading').style.display = 'flex';
+        google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure).do_draft_email(username);
+      }
+
+      function onSuccess() {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('notification').style.display = 'block';
+        document.getElementById('error').style.display = 'none';
+      }
+
+      function onFailure() {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('notification').style.display = 'none';
+      }
+    </script>
+      <style>
+        .spinner {
+          margin: 0;
+          width: 70px;
+          height: 70px;
+          border: 6px solid #ccc;
+          border-top-color: #1d72b8;
+          border-radius: 100%;
+          animation: spin 1s infinite linear;
+        }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+        .loading {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.8);
+          justify-content: center;
+          align-items: center;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: left;
+          background-color: #5F6F65; /* Light gray background color */
+          margin:0;
+        }
+
+        .content {
+            text-align: left;
+        }
+        .button {
+            background-color: #C9DABF;
+            border: none;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-color: 
+        }
+        .button:hover {
+            background-color: #B0CCA5;
+        }
+      
+      </style>
+      
+
+  </head>
+      {{NAVBAR}}
+  <body style="background-color: #5F6F65">
+    
+    <div class="container">
+        <h1 style="padding-left:20px; color:white;">Draft Email</h1>
+      <div class="content"  style="padding-left:20px;">
+      <form id="emailForm">
+        <label for="username"style="color:white;">Gmail Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <input type="button" class="button" value="Draft Email" onclick="draftEmail()">
+      </form>
+
+      <div id="notification" style="display:none; margin-top:20px; color:Lightgreen;">Email draft created successfully!</div>
+      <div id="error" style="display:none; margin-top:20px; color:red;">Error creating email draft.</div>
+
+      <div class="loading" id="loading">
+      <div class="spinner"></div>
+    </div>
+    <?!= include('JavaScript'); ?>
+  </body>
+</html>

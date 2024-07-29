@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+      // Draw Total Amount by Category chart
+      google.script.run.withSuccessHandler(function(data) {
+        drawPieChart(data, 'pie_chart', 'Total Amount by Category');
+      }).getChartData();
+
+      // Draw Quantity Sold by Product chart
+      google.script.run.withSuccessHandler(function(data) {
+        drawBarChart(data, 'bar_chart', 'Quantity Sold by Product');
+      }).getProductQuantityData();
+
+      // Draw Total Amount by Month-Year chart
+      google.script.run.withSuccessHandler(function(data) {
+        drawLineChart(data, 'line_chart', 'Total Amount by Month-Year');
+      }).getTotalAmountByMonthYear();
+
+      // Draw Total Amount by Country chart
+      google.script.run.withSuccessHandler(function(data) {
+        drawPieChart(data, 'pie_chart_country', 'Total Amount by Country');
+      }).getTotalAmountByCountry();
+
+      // Draw Quantity Sold by Category chart
+      google.script.run.withSuccessHandler(function(data) {
+        drawColumnChart(data, 'column_chart', 'Quantity Sold by Category');
+      }).quantitySoldByCategory();
+
+      // Draw Sales Trends Over Time chart
+      google.script.run.withSuccessHandler(function(data) {
+        drawLineChart(data, 'line_chart_sales', 'Sales Trends Over Time');
+      }).salesTrendsOverTime();
+    }
+
+    function drawPieChart(data, elementId, title) {
+      var chartData = google.visualization.arrayToDataTable(data);
+      var options = { title: title, is3D: true };
+      var chart = new google.visualization.PieChart(document.getElementById(elementId));
+      chart.draw(chartData, options);
+    }
+
+    function drawBarChart(data, elementId, title) {
+      var chartData = google.visualization.arrayToDataTable(data);
+      var options = { title: title, hAxis: { title: 'Quantity' }, vAxis: { title: 'Product' } };
+      var chart = new google.visualization.BarChart(document.getElementById(elementId));
+      chart.draw(chartData, options);
+    }
+
+    function drawLineChart(data, elementId, title) {
+      var chartData = google.visualization.arrayToDataTable(data);
+      var options = { title: title, hAxis: { title: 'Date' }, vAxis: { title: 'Total Amount' } };
+      var chart = new google.visualization.LineChart(document.getElementById(elementId));
+      chart.draw(chartData, options);
+    }
+
+    function drawColumnChart(data, elementId, title) {
+      var chartData = google.visualization.arrayToDataTable(data);
+      var options = { title: title, hAxis: { title: 'Category' }, vAxis: { title: 'Quantities' } };
+      var chart = new google.visualization.ColumnChart(document.getElementById(elementId));
+      chart.draw(chartData, options);
+    }
+  </script>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #5F6F65; /* Light gray background color */
+    margin:0;
+
+  }
+  h1 {
+    width: 100%;
+    text-align: center;
+    color: White;
+  }
+  .chart {
+    width: 45%;
+    margin: 1%;
+    height: 390px;
+    background-color: #C9DABF; /* White background for charts */
+    padding:5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+    border-radius: 5px; /* Rounded corners for charts */
+  }
+
+  </style>
+</head>
+  {{NAVBAR}}
+<body>
+
+  <h1>Sales Data Visualization</h1>
+  <div id="pie_chart" class="chart"></div>
+  <div id="bar_chart" class="chart"></div>
+  <div id="line_chart" class="chart"></div>
+  <div id="pie_chart_country" class="chart"></div>
+  <div id="column_chart" class="chart"></div>
+  <div id="line_chart_sales" class="chart"></div>
+</body>
+
+</html>

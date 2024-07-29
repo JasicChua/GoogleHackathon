@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Product Details</title>
+<!--      <div id="navbar">
+          <a href="#home">Home</a>
+          <a href="#charts">Charts</a>
+          <a href="#Email" target="_blank">Email</a>
+          <a href="#ppt">PPT</a>
+          <a href="https://docs.google.com/spreadsheets/d/1RODkzgSVCs4KkTENnmw5FzHxOgaWXk0UhWEJlCskqZM/edit?gid=181777901#gid=181777901" target="_blank">Sheet</a>
+      </div>    -->
+
+    <?!= include('JavaScript'); ?>  <!-- See JavaScript.html file -->
+    <?!= include('CSS'); ?>  <!-- See JavaScript.html file -->
+  </head>
+  <body>
+     <style>
+      .navbar {
+      width: 100%;
+      background-color: #3E4E42; 
+      padding: 0.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-brand {
+      color: white;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-left:25px;
+    }
+
+    .navbar-nav {
+      list-style: none;
+      margin: 1rem;
+      padding: 0;
+    }
+
+    .navbar-nav .nav-item {
+      margin: 1rem;
+    }
+
+    .navbar-nav .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #00ffcc;
+      border-radius: 5px;
+    }
+
+    .navbar-nav .nav-link.active {
+      color: #00ffcc;
+    }
+      </style>
+    {{NAVBAR}}
+    <div class="container">
+      <div class="row">
+      <div class="col-lg-3">
+        <?!= include('FormProductDetails'); ?>
+      </div>       
+      <div class="col-lg-9">
+        <?!= include('DataTable'); ?>
+      </div>
+    </div>
+    </div>
+    <?!= include('SpinnerModal'); ?>
+  </body>
+</html>

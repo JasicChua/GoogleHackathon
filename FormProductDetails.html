@@ -1,0 +1,89 @@
+<form id="ProductDetails" onsubmit="handleFormSubmit(this)">
+  <p class="h4 mb-4 text-center">Product Details</p>
+  <div id="message"></div>
+  
+  <div class="mb-1">
+    <label for="invoice">Invoice Number:</label>
+    <input type="text" id="invoice" name="invoice " class="form-control form-control-sm" rows="2" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="customerName" class="form-label">Customer Name:</label>
+    <textarea id="customerName" name="customerName" class="form-control form-control-sm" rows="2" required></textarea>
+  </div>
+
+  <!-- Hidden Address Field -->
+  <input type="text" id="address" name="address" style="display: none">
+
+  <div class="mb-1">
+    <label for="orderDate" class="form-label">Order Date:</label>
+    <input type="text" id="orderDate" name="orderDate" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="shipMode" class="form-label">Ship Mode:</label>
+    <input type="text" id="shipMode" name="shipMode" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="productName" class="form-label">Product Name:</label>
+    <input type="text" id="productName" name="productName" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="productId" class="form-label">Product ID:</label>
+    <input type="text" id="productId" name="productId" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="subCategory" class="form-label">Sub-Category:</label>
+    <input type="text" id="subCategory" name="subCategory" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="category" class="form-label">Category:</label>
+    <input type="text" id="category" name="category" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="quantity" class="form-label">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" class="form-control form-control-sm" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="unitCost" class="form-label">Unit Cost:</label>
+    <input type="text" id="unitCost" name="unitCost" class="form-control form-control-sm" step="0.01" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="subtotal" class="form-label">Subtotal:</label>
+    <input type="text" id="subtotal" name="subtotal" class="form-control form-control-sm" step="0.01" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="discountPercentage" class="form-label">Discount (%):</label>
+    <input type="text" id="discountPercentage" name="discountPercentage" class="form-control form-control-sm" step="0.01">
+  </div>
+
+  <div class="mb-1">
+    <label for="discountAmount" class="form-label">Discount Amount:</label>
+    <input type="text" id="discountAmount" name="discountAmount" class="form-control form-control-sm" step="0.01">
+  </div>
+
+  <div class="mb-1">
+    <label for="shippingFee" class="form-label">Shipping Fee:</label>
+    <input type="text" id="shippingFee" name="shippingFee" class="form-control form-control-sm" step="0.01" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="totalAmount" class="form-label">Total Amount:</label>
+    <input type="text" id="totalAmount" name="totalAmount" class="form-control form-control-sm" step="0.01" required>
+  </div>
+
+  <div class="mb-1">
+    <label for="orderId" class="form-label">Order ID:</label>
+    <input type="text" id="orderId" name="orderId" class="form-control form-control-sm" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

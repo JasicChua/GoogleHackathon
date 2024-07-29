@@ -1,0 +1,167 @@
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+<script>
+  // Prevent forms from submitting.
+  function preventFormSubmit() {
+    var forms = document.querySelectorAll('form');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].addEventListener('submit', function(event) {
+      event.preventDefault();
+      });
+    }
+  }
+  window.addEventListener("load", functionInit, true); 
+  
+  //INITIALIZE FUNCTIONS ONLOAD
+  function functionInit(){
+    $('#spinnerModal').modal('show');  
+    preventFormSubmit();
+    getLastTenRows();
+  };  
+
+  //HANDLE FORM SUBMISSION
+  function handleFormSubmit(formObject) {
+    $('#spinnerModal').modal('show');
+    console.log("Form data:", formObject);
+    google.script.run
+      .withSuccessHandler(function(result) {
+        console.log("Form submission successful", result);
+        createTable(result);
+        document.getElementById("ProductDetails").reset();
+        document.getElementById("message").innerHTML = "";
+        $('#spinnerModal').modal('hide');
+      })
+      .withFailureHandler(function(error) {
+        console.error("Form submission failed:", error);
+        alert("An error occurred while submitting the form. Please check the console for details.");
+        $('#spinnerModal').modal('hide');
+      })
+      .processForm(formObject);
+  }
+
+  function onFailure(error) {
+  console.error("Operation failed:", error);
+  $('#spinnerModal').modal('hide');
+  alert("An error occurred. Please check the console for details.");
+  }
+
+  function deleteRecord(el) {
+    var result = confirm("Want to delete?");
+    if (result) {
+      $('#spinnerModal').modal('show');
+      var invoice = el.closest('tr').cells[2].innerHTML;
+      console.log("Deleting record with invoice:", invoice); // Add this line for debugging
+      google.script.run.withSuccessHandler(createTable).withFailureHandler(onFailure).deleteRecord(invoice);
+      document.getElementById("ProductDetails").reset();
+    }
+  }
+
+  //GET LAST 10 ROWS
+  function getLastTenRows (){
+    google.script.run.withSuccessHandler(createTable).getLastTenRecords();
+  }
+
+  function editRecord(el){
+    $('#spinnerModal').modal('show');
+    let id = el.closest('tr').cells[2].innerHTML;
+    console.log("Editing record with ID:", id); // Add this line for debugging
+    google.script.run.withSuccessHandler(populateForm).withFailureHandler(onFailure).getRecordById(id);
+  }
+
+
+  function populateForm(data){
+    $('#spinnerModal').modal('hide');
+// Assuming `data[0]` contains an array of field values
+    document.getElementById('invoice').value = data[0][0]; // Invoice
+    document.getElementById('customerName').value = data[0][1]; // Customer Name
+    document.getElementById('address').value = data[0][2]; // Address
+    document.getElementById('orderDate').value = data[0][3]; // Order Date
+    document.getElementById('shipMode').value = data[0][4]; // Ship Mode
+    document.getElementById('productName').value = data[0][5]; // Product Name
+    document.getElementById('productId').value = data[0][6]; // Product ID
+    document.getElementById('subCategory').value = data[0][7]; // Sub-Category
+    document.getElementById('category').value = data[0][8]; // Category
+    document.getElementById('quantity').value = data[0][9]; // Quantity
+    document.getElementById('unitCost').value = data[0][10]; // Unit Cost
+    document.getElementById('subtotal').value = data[0][11]; // Subtotal
+    document.getElementById('discountPercentage').value = data[0][12]; // Discount Percentage
+    document.getElementById('discountAmount').value = data[0][13]; // Discount Amount
+    document.getElementById('shippingFee').value = data[0][14]; // Shipping Fee
+    document.getElementById('totalAmount').value = data[0][15]; // Total Amount
+    document.getElementById('orderId').value = data[0][16]; // Order ID
+
+    // Set the message
+    document.getElementById("message").innerHTML = "<div class='alert alert-warning' role='alert'>Update Record [ID: " + data[0][0] + "]</div>";
+  }
+  
+
+  //CREATE THE DATA TABLE
+  function createTable(dataArray) {
+    $('#spinnerModal').modal('hide');
+    if (dataArray && dataArray.length) {
+      var result =
+        "<table class='table table-sm' style='font-size:0.8em'>" +
+        "<thead style='white-space: nowrap'>" +
+        "<tr>" +
+        "<th scope='col'>Delete</th>" +
+        "<th scope='col'>Edit</th>" +
+        "<th scope='col'>Invoice Number</th>" + 
+        "<th scope='col'>Customer Name</th>" +
+        "<th scope='col' style='display:none;'>Address</th>" +
+        "<th scope='col'>Order Date</th>" +
+        "<th scope='col'>Ship Mode</th>" +
+        "<th scope='col'>Product Name</th>" +
+        "<th scope='col'>Product ID</th>" +
+        "<th scope='col'>Sub-Category</th>" +
+        "<th scope='col'>Category</th>" +
+        "<th scope='col'>Quantity</th>" +
+        "<th scope='col'>Unit Cost</th>" +
+        "<th scope='col'>Subtotal</th>" +
+        "<th scope='col'>Discount (%)</th>" +
+        "<th scope='col'>Discount Amount</th>" +
+        "<th scope='col'>Shipping Fee</th>" +
+        "<th scope='col'>Total Amount</th>" +
+        "<th scope='col'>Order ID</th>" +
+        "</tr>" +
+        "</thead>";
+      for (var i = 0; i < dataArray.length; i++) {
+        result += "<tr>";
+        result +=
+          "<td><button type='button' class='btn btn-danger btn-custom deleteBtn' onclick='deleteRecord(this);'>Delete</button></td>";
+        result +=
+          "<td><button type='button' class='btn btn-warning btn-custom editBtn' onclick='editRecord(this);'>Edit</button></td>";
+        for (var j = 0; j < dataArray[i].length; j++) {
+          if(j === 2){
+            result +=
+              "<td style='display:none;'>" + dataArray[i][j] + "</td>"; // Hide the Description column data
+          } else {
+            result += "<td>" + dataArray[i][j] + "</td>";
+          }
+        }
+        result += "</tr>";
+      }
+      result += "</table>";
+      var div = document.getElementById("dataTable");
+      div.innerHTML = result;
+      document.getElementById("message").innerHTML = "";
+    } else {
+      var div = document.getElementById("dataTable");
+      div.innerHTML = "Data not found!";
+    }
+  }
+
+//SEARCH RECORDS
+function handleSearchForm(formObject) {
+  $('#spinnerModal').modal('show');
+  google.script.run.withSuccessHandler(createTable).searchRecords(formObject);
+  document.getElementById("search-form").reset();
+}
+
+
+function getAllRecords(){
+    $('#spinnerModal').modal('show');
+    google.script.run.withSuccessHandler(createTable).getAllRecords();
+  }
+</script>
