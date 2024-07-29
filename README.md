@@ -1,4 +1,4 @@
-# GoogleHackathon
+# GoogleWorkSpaceHackathon
 
 Our AppScript code is dependant on our Google Sheet File, if the AppScript file can't run alone you can open our Google Sheet Link and click on the extension at the taskbar and click AppScript
 
